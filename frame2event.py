@@ -2,6 +2,12 @@ import numpy as np
 import os,sys
 
 def interpolation(data,interpolation):
+    '''
+
+    :param data: input frame data
+    :param interpolation: the num of frame to be interpolated between the original marker_position
+    :return: the frame data .The format and content is identical with the marker position
+    '''
     rst=[]
     for i in range(data.shape[0]-1):
         rst.append(data[i])
@@ -12,6 +18,26 @@ def interpolation(data,interpolation):
     return np.array(rst).astype(int)
 
 def np2bin(data,state_save_path):
+
+    # the event in 10 frames ,about 109ms ---> 'left'.bs2 and 'right'.bs2
+    '''
+                                    8 Bytes
+    \--------\--------\--------\--------\--------\--------\--------\--------\
+    \        x        \        y        \p\                t                \
+    range of x:
+        left: about 100~750
+        right:about 750~1400
+    range of y:
+        about 100~750
+    p:
+        1 for appear
+        0 for disappear
+    range of t:
+        (1,109)
+    :param data: input frame data
+    :param state_save_path: the path to save bs2 file
+    :return: none
+    '''
 
     bs2num=data.shape[0]//10
 
@@ -55,7 +81,8 @@ def np2bin(data,state_save_path):
 
 
                     if len(event_left)!=0:
-
+                        print(f"the min x:{min(event_left[:, 0])},the max x:{max(event_left[:, 0])}", end=' ')
+                        print(f"the min y:{min(event_left[:, 1])},the max y:{max(event_left[:, 1])}")
                         outputByte = bytearray(len(event_left) * 8)
                         xevent=event_left[:,0]
                         yevent=event_left[:,1]
@@ -75,8 +102,7 @@ def np2bin(data,state_save_path):
 
                         f2.write(outputByte)
                     if len(event_right)!=0:
-                        # print(f"the min x:{min(event_right[:, 0])},the max x:{max(event_right[:, 0])}", end=' ')
-                        # print(f"the min y:{min(event_right[:, 1])},the max y:{max(event_right[:, 1])}")
+
                         outputByte = bytearray(len(event_right) * 8)
                         xevent = event_right[:, 0]
                         yevent = event_right[:, 1]
@@ -94,18 +120,15 @@ def np2bin(data,state_save_path):
                         outputByte[7::8] = np.uint8(tevent & 0xff).tobytes()
 
                         f1.write(outputByte)
-        print("bs2name:{}".format(bs2name), end=' ')
-        print(len(event_right),end=' ')
-        print(len(event_left),end=' ')
         f1.close()
         f2.close()
     print()
 
 if __name__=="__main__":
-    # load_path = './marker_position'
-    # save_path = './gelstereo_event'
-    load_path = '/home/robot/data/dataset/gelstereo_data_0117/marker_position'
-    save_path = '/home/robot/data/dataset/gelstereo_data_0117/gelstereo_event'
+    load_path = './marker_position'
+    save_path = './gelstereo_event'
+    # load_path = '/home/robot/data/dataset/gelstereo_data_0117/marker_position'
+    # save_path = '/home/robot/data/dataset/gelstereo_data_0117/gelstereo_event'
     for noun in os.listdir(load_path):
         noun_load_path=os.path.join(load_path,noun)
         noun_save_path=os.path.join(save_path,noun)
@@ -125,13 +148,12 @@ if __name__=="__main__":
                 tmp=np.load(os.path.join(state_load_path,str(i+1)+'.npy'),'r')
                 data.append(tmp)
             data=np.array(data)
-
-            # print("shape:{}".format(np.array(data).shape))
-
             # print("shape:{}".format(np.array(data).shape),end=' ')
+
+            ## interpolation 3 and return npy. The format and content is identical with the marker position
             data=interpolation(data,3)
             print(data.shape)
-
+            ## transform the frame npy to event.bs2. the bs2 is encoded with special format.
             np2bin(data,state_save_path)
 
 
