@@ -1,7 +1,16 @@
 # Loihi-GelStereo
 
 `frame2event.py` : turn the original marker_position to event file.
-`selectdata.py` : select data for train and test from 17370 event files
+
+`selectdata.py` : select data for train and test from 17370 event files.
+
+`gelstereo.py` : the main network file.
+
+`network.yaml` : the network configuration. 
+
+`/Trained` : 
+>trained_gelstereo.pt, loss.txt, accuracy.txt, loss.png, accuracy.png. 
+
 
 ## Reference:
 SLAYER(spike layer error reassignment)
