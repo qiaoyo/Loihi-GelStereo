@@ -39,7 +39,7 @@ def get_data(data_path, txt_path, seq_length):
             # motion load path
             load_path = os.path.join(data_path, dir + '/' + group + '/' + str(file+1+s) + '.npy')
             motion = np.load(load_path)
-            motion_seq.append(motion)
+            motion_seq.append(motion[1])  # motion[0] left image   motion[1] right image
 
         motion_seq_list.append(motion_seq)
     return motion_seq_list, label_list
@@ -48,7 +48,7 @@ def get_data(data_path, txt_path, seq_length):
 
 class SlipDataset(Dataset):
     def __init__(self, seq_length=3, phase='train'):
-        txt_path = '/home/zcf/Documents/PyCharm project/gelstereo-slip-detection/dataset/' + phase + '.txt'  # path to train.txt or test.txt
+        txt_path = '/home/zcf/Documents/PyCharm project/Loihi-GelStereo/ANN/dataset/' + phase + '.txt'  # path to train.txt or test.txt
         data_path = '/media/zcf/T7/slip-dataset_2.1/diff_motion'  # data path
         self.motion_seq_list, self.label_list = get_data(data_path=data_path, txt_path=txt_path, seq_length=seq_length)
 
