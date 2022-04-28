@@ -1,6 +1,6 @@
 simulation:
     Ts: 1.0
-    tSample: 110
+    tSample: 130
 
 neuron:
     type:     SRMALPHA
@@ -13,9 +13,9 @@ neuron:
 training:
     error:
         type: NumSpikes #ProbSpikes #NumSpikes
-        tgtSpikeRegion: {start: 0, stop: 110}    # only valid for NumSpikes and ProbSpikes
+        tgtSpikeRegion: {start: 0, stop: 130}    # only valid for NumSpikes and ProbSpikes
         tgtSpikeCount: {true: 60, false: 10}    # only valid for NumSpikes
     path:
-        in:      gelstereo/
-        train:   gelstereo/train.txt
-        test:    gelstereo/test.txt
+        in:      /home/robot/data/gelstereo_data_0117/gel_0427/
+        train:   /home/robot/data/gelstereo_data_0117/gel_0427/train_reorder.txt
+        test:   /home/robot/data/gelstereo_data_0117/gel_0427/test_reorder.txt

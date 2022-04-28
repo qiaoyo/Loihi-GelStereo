@@ -39,38 +39,38 @@ def np2bin(data,state_save_path):
     :return: none
     '''
 
-    bs2num=data.shape[0]//10
+    bs2num=data.shape[0]//20
 
     for bs2name in range(bs2num):
         f1 = open(state_save_path + '/'+ str(bs2name+1) + 'right.bs2', 'wb')
         f2 = open(state_save_path + '/'+ str(bs2name+1) + 'left.bs2', 'wb')
 
-        for i in range(bs2name*10, bs2name*10+10):
+        for i in range(bs2name*20, bs2name*20+20):
             if i != 0:
                 event_left = []
                 event_right = []
                 tmp = data[i] - data[i - 1]
                 loc = np.where(tmp != 0)
                 loc = np.array(loc)
-                temp=i % 10 + 1
+                temp=i % 20 + 1
                 if loc.shape[1]!=0:
                     for j in range(loc.shape[1]):
 
                         if loc[0][j]==0:
                             tmp_event = [data[i][0][0][loc[2][j]][loc[3][j]], data[i][0][1][loc[2][j]][loc[3][j]], 1,
-                                         np.around(temp * 10.869).astype(int)]
+                                         temp]
                             if tmp_event not in event_right:
                                 event_right.append(tmp_event)
                                 tmp_event = [data[i - 1][0][0][loc[2][j]][loc[3][j]], data[i - 1][0][1][loc[2][j]][loc[3][j]], 0,
-                                         np.around(temp * 10.869).astype(int)]
+                                         temp]
                                 event_right.append(tmp_event)
                         else :
                             tmp_event = [data[i][1][0][loc[2][j]][loc[3][j]], data[i][1][1][loc[2][j]][loc[3][j]], 1,
-                                         np.around(temp * 10.869).astype(int)]
+                                         temp]
                             if tmp_event not in event_left:
                                 event_left.append(tmp_event)
                                 tmp_event = [data[i - 1][1][0][loc[2][j]][loc[3][j]],data[i - 1][1][1][loc[2][j]][loc[3][j]], 0,
-                                         np.around(temp * 10.869).astype(int)]
+                                         temp]
                                 event_left.append(tmp_event)
 
 
@@ -125,10 +125,12 @@ def np2bin(data,state_save_path):
     print()
 
 if __name__=="__main__":
-    load_path = './marker_position'
-    save_path = './gelstereo_event'
-    # load_path = '/home/robot/data/dataset/gelstereo_data_0117/marker_position'
-    # save_path = '/home/robot/data/dataset/gelstereo_data_0117/gelstereo_event'
+    # load_path = './marker_position'
+    # save_path = './gelstereo_event_0301'
+    load_path = '/home/robot/data/dataset/gelstereo_data_0117/marker_position'
+    save_path = '/home/robot/data/dataset/gelstereo_data_0117/gelstereo_event_0301'
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
     for noun in os.listdir(load_path):
         noun_load_path=os.path.join(load_path,noun)
         noun_save_path=os.path.join(save_path,noun)
@@ -151,7 +153,7 @@ if __name__=="__main__":
             # print("shape:{}".format(np.array(data).shape),end=' ')
 
             ## interpolation 3 and return npy. The format and content is identical with the marker position
-            data=interpolation(data,3)
+            data=interpolation(data,7)
             print(data.shape)
             ## transform the frame npy to event.bs2. the bs2 is encoded with special format.
             np2bin(data,state_save_path)

@@ -1,0 +1,22 @@
+simulation:
+    Ts: 1.0
+    tSample: 130
+
+neuron:
+    type:     LOIHI
+    vThMant:  32 
+    vDecay:   128
+    iDecay:   1024
+    refDelay: 1
+    wgtExp:   0
+    tauRho:   1     # relative to theta 
+    scaleRho: 1
+training:
+    error:
+        type: NumSpikes #ProbSpikes #NumSpikes
+        tgtSpikeRegion: {start: 0, stop: 130}    # only valid for NumSpikes and ProbSpikes
+        tgtSpikeCount: {true: 60 , false: 10}    # only valid for NumSpikes
+    path:
+        in:      /home/robot/data/gelstereo_data_0117/gel_0427/
+        train:   /home/robot/data/gelstereo_data_0117/gel_0427/train_reorder.txt
+        test:   /home/robot/data/gelstereo_data_0117/gel_0427/test_reorder.txt
