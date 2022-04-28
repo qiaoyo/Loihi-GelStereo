@@ -179,3 +179,14 @@ if __name__ == '__main__':
     print('precision', precision)
     print('recall', recall)
 
+
+    with open(os.path.join(opt.checkpoint, 'results.txt'), 'w') as f:
+        f.write('inference time:\t')
+        f.write(str(infer_time.avg))
+        f.write('\naccuracy:\t')
+        f.write(str(acc))
+        f.write('\nprecision:\t')
+        f.write(str(precision))
+        f.write('\nrecall:\t')
+        f.write(str(recall))
+

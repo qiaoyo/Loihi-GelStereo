@@ -2,9 +2,9 @@ import os
 import numpy as np
 
 if __name__ == '__main__':
-    load_path = '/media/zcf/Documents/slip-dataset_2.1/marker_position'  # path of marker_position
+    load_path = '/media/zcf/T7/slip-dataset_2.1/marker_position'  # path of marker_position
 
-    motion_save_path = '/media/zcf/Documents/slip-dataset_2.1/diff_motion'
+    motion_save_path = '/media/zcf/T7/slip-dataset_2.1/diff_motion'
 
     for obj in os.listdir(load_path):  # object
         obj_load_path = os.path.join(load_path, obj)
@@ -23,10 +23,11 @@ if __name__ == '__main__':
                 marker = np.load(os.path.join(group_load_path, str(i)+'.npy'), allow_pickle=True)
                 marker_pre = np.load(os.path.join(group_load_path, str(i-1) + '.npy'), allow_pickle=True)
 
-                marker_L = marker[0]
-                marker_pre_L = marker_pre[0]
+                # marker_L = marker[0]
+                # marker_pre_L = marker_pre[0]
+                # motion = marker_L - marker_pre_L
 
-                motion = marker_L - marker_pre_L
+                motion = marker - marker_pre
 
                 np.save(os.path.join(motion_group_save_path, str(i)+'.npy'), motion)
         print('------------------------------')
