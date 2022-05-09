@@ -70,23 +70,13 @@ if __name__ == '__main__':
 
 
     ## Dataset ---------------
-    if opt.dataset == 'trainset':
-        trainset = SlipDataset(seq_length=3, phase='train')
-        data_loader = torch.utils.data.DataLoader(
-            dataset=trainset,
-            batch_size=opt.batchSize,
-            shuffle=False,
-            num_workers=int(opt.workers))
-    elif opt.dataset == 'testset':
-        testset = SlipDataset(seq_length=3, phase='test')
-        data_loader = torch.utils.data.DataLoader(
-            dataset=testset,
-            batch_size=opt.batchSize,
-            shuffle=False,
-            num_workers=int(opt.workers))
-    else:
-        print('dataset selection error')
-        exit()
+    dataset = SlipDataset(seq_length=3, phase=opt.dataset)
+    data_loader = torch.utils.data.DataLoader(
+        dataset=dataset,
+        batch_size=opt.batchSize,
+        shuffle=False,
+        num_workers=int(opt.workers))
+
 
     ###---------set model arch and load par-----------------------
     # # Model

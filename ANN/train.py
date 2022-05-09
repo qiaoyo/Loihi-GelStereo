@@ -199,7 +199,7 @@ if __name__ == '__main__':
         opt_file.write('-------------- End ----------------\n')
 
     ## Dataset ---------------
-    trainset = SlipDataset(seq_length=3, phase='train')
+    trainset = SlipDataset(seq_length=3, phase='train_0507')
     train_loader = torch.utils.data.DataLoader(
         dataset=trainset,
         batch_size=opt.batchSize,
@@ -207,7 +207,7 @@ if __name__ == '__main__':
         num_workers=int(opt.workers))
 
     if opt.test:
-        testset = SlipDataset(seq_length=3, phase='test')
+        testset = SlipDataset(seq_length=3, phase='val_0507')
         test_loader = torch.utils.data.DataLoader(
             dataset=testset,
             batch_size=opt.batchSize,
@@ -255,7 +255,7 @@ if __name__ == '__main__':
         best_acc = 0  # +∞
         logger = Logger(os.path.join(opt.checkpoint, 'log.txt'))
         if opt.test:
-            logger.set_names(['Learning Rate', 'Train Loss', 'Train acc', 'Test Loss', 'Test acc'])
+            logger.set_names(['Learning Rate', 'Train Loss', 'Train acc', 'Val Loss', 'Val acc'])
         else:
             logger.set_names(['Learning Rate', 'Train Loss', 'Train acc'])
 
@@ -288,8 +288,11 @@ if __name__ == '__main__':
             'optimizer': optimizer.state_dict(),
         }, is_best, checkpoint=opt.checkpoint)
 
-    logger.plot(names=['Train Loss', 'Test Loss'], figname='loss.png', ylabel='loss')
-    logger.plot(names=['Train acc', 'Test acc'], figname='acc.png', ylabel='accuracy')
+    # logger.plot(names=['Train Loss', 'Test Loss'], figname='loss.png', ylabel='loss')
+    # logger.plot(names=['Train acc', 'Test acc'], figname='acc.png', ylabel='accuracy')
+
+    logger.plot(names=['Train Loss', 'Val Loss'], figname='loss.png', ylabel='loss')
+    logger.plot(names=['Train acc', 'Val acc'], figname='acc.png', ylabel='accuracy')
 
     logger.close()
 
