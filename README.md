@@ -6,13 +6,18 @@
 
 `gelstereo.py` : the main network file.
 
-`network.yaml` : the network configuration. 
+`network.yaml` : the network configuration.
 
-`/Trained` : 
->trained_gelstereo.pt, loss.txt, accuracy.txt, loss.png, accuracy.png. 
+`/Trained` :
 
+> trained_gelstereo.pt, loss.txt, accuracy.txt, loss.png, accuracy.png.
+
+# Dataset
+
+`https://drive.google.com/drive/folders/1typmtKDwswxcXDZVRKNsYxgxNprQ4YhN?usp=sharing`
 
 ## Reference:
+
 SLAYER(spike layer error reassignment)
 
 'https://github.com/bamsumit/slayerPytorch'
@@ -20,4 +25,3 @@ SLAYER(spike layer error reassignment)
 ANN-SNN ToolBox
 
 'https://github.com/NeuromorphicProcessorProject/snn_toolbox'
-
